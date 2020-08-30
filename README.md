@@ -1,5 +1,5 @@
 # Book-Library-Manager 
-Is a web application created with Express, Node.js, Pug and the Sequelize ORM. The app uses the SQLite database to manager the book collections.
+Is a web application created with Express, Node.js, Pug and the Sequelize ORM. The app uses the SQLite database to manager the book collections.Pug is used for rendering the frontend.
 
 The app has the following endpoints/routes
 
