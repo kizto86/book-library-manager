@@ -12,7 +12,8 @@ function asyncHandler(cb) {
   };
 }
 
-/* GET all books */
+/*   GET all books   */
+
 router.get(
   "/",
   asyncHandler(async (req, res) => {
@@ -21,7 +22,8 @@ router.get(
   })
 );
 
-/*Create a new book form*/
+/*  Create a new book form  */
+
 router.get(
   "/new",
   asyncHandler(async (req, res) => {
@@ -29,7 +31,8 @@ router.get(
   })
 );
 
-/*POST the create book*/
+/*   Create a new book    */
+
 router.post(
   "/new",
   asyncHandler(async (req, res) => {
@@ -38,31 +41,45 @@ router.post(
   })
 );
 
-/*GET individual book
+/*    Updates book form     */
+
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
-    res.render("books/update-book", { book: book });
-  })
-);*/
-
-/*Updates book form*/
-router.get(
-  "/:id/",
-  asyncHandler(async (req, res) => {
-    const book = await Book.findByPk(req.params.id);
-    res.render("books/update-book", { book: book, title: "Edit book" });
+    res.render("books/update-book", { book });
   })
 );
 
-/*Updates  book*/
+/*    Updates  a book     */
+
 router.post(
-  "/:id/",
+  "/:id",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     await book.update(req.body);
     res.redirect("/books/" + book.id);
+  })
+);
+
+/*    Delete book form    */
+
+router.get(
+  "/:id",
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    res.render("books/update-book", { book });
+  })
+);
+
+/*   Delete individual book    */
+
+router.post(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const book = await Book.findByPk(req.params.id);
+    await book.destroy();
+    res.redirect("/books")
   })
 );
 
