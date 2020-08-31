@@ -2,6 +2,7 @@ extends ../layout
 
 block content
     h1  Update Book
+    include error
     form(method='POST' action='/books/' + book.id)
         p
             label(for="title") Title

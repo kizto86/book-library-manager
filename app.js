@@ -35,7 +35,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   if (err.status === 400) {
-    res.status(400).render("page_not_found");
+    res.status(400).render("");
   } else {
     res.status(err.status || 500).render("error", { err });
   }
