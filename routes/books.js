@@ -42,11 +42,11 @@ router.post(
       res.redirect("/books/" + book.id);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
-          //checking the error
+        //checking the error
         book = await Book.build(req.body);
         res.render("books/new-book", { book, errors: error.errors });
       } else {
-          //error caught in the asyncHandler's catch block
+        //error caught in the asyncHandler's catch block
         throw error;
       }
     }
@@ -60,7 +60,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
     if (book) {
-      res.render("books/update-book", { book ,title:"Edit Book"});
+      res.render("books/update-book", { book, title: "Edit Book" });
     } else {
       res.sendStatus(404);
     }
@@ -83,16 +83,16 @@ router.post(
       }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
-          //checking the error re-rendering the update book view
+        //checking the error re-rendering the update book view
         book = await Book.build(req.body);
         book.id = req.params.id;
         res.render("books/update-book", {
           book,
           errors: error.errors,
-            title:"Edit Book"
+          title: "Edit Book",
         });
       } else {
-          //throws other types of errors which is handled by the catch block
+        //throws other types of errors which is handled by the catch block
         throw error;
       }
     }
