@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+    if(errors)
+        h2.errors Whoops! something went wrong.
+        ul.errors
+            each error in errors
+                li
+                    =error.message
+

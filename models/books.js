@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
             allowNull:false,
             validate:{
                 notEmpty:{
-                    msg:"Please provide a value for the title"
+                    msg:"Please provide the title of the book"
                 }
             }
         },
@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
             allowNull:false,
             validate:{
                 notEmpty:{
-                    msg:"Please provide a value for the author"
+                    msg:"Please provide the name of the author of the book"
                 }
             }
         },

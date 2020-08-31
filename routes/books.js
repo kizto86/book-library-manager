@@ -12,7 +12,7 @@ function asyncHandler(cb) {
   };
 }
 
-/*   GET all books   */
+/* GET all books */
 
 router.get(
   "/",
@@ -22,7 +22,7 @@ router.get(
   })
 );
 
-/*  Create a new book form  */
+/* Create a new book form */
 
 router.get(
   "/new",
@@ -31,55 +31,100 @@ router.get(
   })
 );
 
-/*   Create a new book    */
+/* Create a new book */
 
 router.post(
   "/new",
   asyncHandler(async (req, res) => {
-    const book = await Book.create(req.body);
-    res.redirect("/books/" + book.id);
+    let book;
+    try {
+      book = await Book.create(req.body);
+      res.redirect("/books/" + book.id);
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+          //checking the error
+        book = await Book.build(req.body);
+        res.render("books/new-book", { book, errors: error.errors });
+      } else {
+          //error caught in the asyncHandler's catch block
+        throw error;
+      }
+    }
   })
 );
 
-/*    Updates book form     */
+/* Updates book form */
 
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
-    res.render("books/update-book", { book });
+    if (book) {
+      res.render("books/update-book", { book ,title:"Edit Book"});
+    } else {
+      res.sendStatus(404);
+    }
   })
 );
 
-/*    Updates  a book     */
+/* Updates  a book */
 
 router.post(
   "/:id",
   asyncHandler(async (req, res) => {
-    const book = await Book.findByPk(req.params.id);
-    await book.update(req.body);
-    res.redirect("/books/" + book.id);
+    let book;
+    try {
+      book = await Book.findByPk(req.params.id);
+      if (book) {
+        await book.update(req.body);
+        res.redirect("/books/" + book.id);
+      } else {
+        res.sendStatus(404);
+      }
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+          //checking the error re-rendering the update book view
+        book = await Book.build(req.body);
+        book.id = req.params.id;
+        res.render("books/update-book", {
+          book,
+          errors: error.errors,
+            title:"Edit Book"
+        });
+      } else {
+          //throws other types of errors which is handled by the catch block
+        throw error;
+      }
+    }
   })
 );
 
-/*    Delete book form    */
+/* Delete book form */
 
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
-    res.render("books/update-book", { book });
+    if (book) {
+      res.render("books/update-book", { book, title: "Delete Book" });
+    } else {
+      res.sendStatus(404);
+    }
   })
 );
 
-/*   Delete individual book    */
+/* Delete individual book */
 
 router.post(
   "/:id/delete",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
-    await book.destroy();
-    res.redirect("/books")
+    if (book) {
+      await book.destroy();
+      res.redirect("/books");
+    } else {
+      res.sendStatus(404);
+    }
   })
 );
 
