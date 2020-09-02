@@ -35,7 +35,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   if (err.status === 400) {
-    res.status(400).render("");
+    res.status(400).render("books/page-not-found");
   } else {
     res.status(err.status || 500).render("error", { err });
   }

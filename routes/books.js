@@ -62,7 +62,7 @@ router.get(
     if (book) {
       res.render("books/update-book", { book, title: "Edit Book" });
     } else {
-      res.sendStatus(404);
+      res.render("error");
     }
   })
 );
@@ -101,7 +101,7 @@ router.post(
 
 /* Delete book form */
 
-router.get(
+/*router.get(
   "/:id",
   asyncHandler(async (req, res) => {
     const book = await Book.findByPk(req.params.id);
@@ -111,7 +111,7 @@ router.get(
       res.sendStatus(404);
     }
   })
-);
+);*/
 
 /* Delete individual book */
 
@@ -123,7 +123,7 @@ router.post(
       await book.destroy();
       res.redirect("/books");
     } else {
-      res.sendStatus(404);
+      res.sendStatus(404).render("books/page-not-found");
     }
   })
 );
