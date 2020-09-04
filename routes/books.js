@@ -123,7 +123,7 @@ router.post(
       await book.destroy();
       res.redirect("/books");
     } else {
-      res.sendStatus(404).render("books/page-not-found");
+      res.sendStatus(404)
     }
   })
 );
