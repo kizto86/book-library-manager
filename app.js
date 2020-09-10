@@ -24,20 +24,21 @@ app.use("/books", booksRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  res.status(404).render('books/page-not-found')
-    next()
+  res.status(404).render("books/page-not-found");
+  next();
 });
 
 // Global error handler
 app.use(function (err, req, res, next) {
-  if(err){
-    console.log('Global error handler called', err)
+  if (err) {
+    console.log("Global error handler called", err);
   }
   // render the error page
   if (err.status === 404) {
-    res.status(404).render("books/page-not-found",{err});
+    res.status(404).render("books/page-not-found", { err });
   } else {
-    err.message = err.message || `Oops it looks like something went wrong on the server`
+    err.message =
+      err.message || `Oops it looks like something went wrong on the server`;
     res.status(err.status || 500).render("error", { err });
   }
 });

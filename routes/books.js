@@ -57,12 +57,14 @@ router.post(
 
 router.get(
   "/:id",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
     if (book) {
       res.render("books/update-book", { book, title: "Edit Book" });
     } else {
-      res.render("error");
+      const err = new Error();
+      err.status = 404;
+      next(err);
     }
   })
 );
@@ -99,20 +101,6 @@ router.post(
   })
 );
 
-/* Delete book form */
-
-/*router.get(
-  "/:id",
-  asyncHandler(async (req, res) => {
-    const book = await Book.findByPk(req.params.id);
-    if (book) {
-      res.render("books/update-book", { book, title: "Delete Book" });
-    } else {
-      res.sendStatus(404);
-    }
-  })
-);*/
-
 /* Delete individual book */
 
 router.post(
@@ -123,7 +111,7 @@ router.post(
       await book.destroy();
       res.redirect("/books");
     } else {
-      res.sendStatus(404)
+      res.sendStatus(404);
     }
   })
 );
