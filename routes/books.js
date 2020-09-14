@@ -63,7 +63,7 @@ router.get(
       res.render("books/update-book", { book, title: "Edit Book" });
     } else {
       const err = new Error();
-      err.status = 404;
+      err.status = 500;
       next(err);
     }
   })
